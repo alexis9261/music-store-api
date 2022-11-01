@@ -1,0 +1,34 @@
+version: '3.3'
+
+#Servicios que se levantaran al correr docker-compose
+services:
+  #servicio de base de datos - Postgresql
+  postgres:
+    #Imagen a partir de la cual se creara el servicio(contenedor)
+    image: postgres:13
+    #Variable de ambiente que usara el servicio. utiles para conectar a BD
+    environment:
+      - POSTGRES_DB=my_store
+      - POSTGRES_USER=alexis
+      - POSTGRES_PASSWORD=test123
+    #Puerto que habilitara el contenedor
+    ports:
+      - 5432:5432
+    #volume donde se guardara toda la data que se vaya almacenando en el contenedor
+    volumes:
+      #la primera ruta indica la carpeta en el proyecto actual donde se guardaran los datos generados en el contenedor
+      # La segunda carpeta indica la ruta del contenedor que sera copiada hacia el equipo host.
+      # Basicamente se copia todo lo que esta en /var/lib/postgresql/data hacia ./postgres_data
+      # Y cuando se apague o reinicie el contenedor, la informacion de la BD estara respaldada en la carpeta ./postgres_data
+      - ./postgres_data:/var/lib/postgresql/data
+  #servicio para interfaz grafica de base de datos
+  pgadmin:
+    #imagen base
+    image: dpage/pgadmin4
+    #variables de entorno a user por el servicio
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@mail.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    #puertos que usaras
+    ports:
+      - 5050:80
