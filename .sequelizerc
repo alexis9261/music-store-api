@@ -1,0 +1,7 @@
+// Configuracion para indicar a sequelize donde estaran las rutas de cada componente
+module.exports = {
+  'config': './db/config.js',
+  'models-path': './db/models/',
+  'migrations-path': './db/migrations/',
+  'seeders-path': './db/seefers/',
+}

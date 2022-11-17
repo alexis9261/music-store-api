@@ -34,3 +34,14 @@ docker-compose --env-file [dir_name] up -d
 ```
 npm run dev
 ```
+### Crear un archivo de migracion
+npm run migrations:generate migracion_name_file
+
+### ejcutar las migraciones
+npm run migrations:run
+
+### revertir(rollback) de la ultima migracion ejecutada
+npm run migrations:revert
+
+### eliminar todas las tablas y datos de BD
+npm run migrations:delete
