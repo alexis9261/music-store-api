@@ -1,9 +1,78 @@
 const express = require('express');
 
-const router = express.Router();
+const OrderService = require('./../services/order.service');
+const validatorHandler = require('./../middlewares/validator.handler');
+const { createOrderSchema, updateOrderSchema, getOrderSchema } = require('./../schemas/order.schema');
 
-router.get('/', (req, res) => {
-  res.json([]);
+const router = express.Router();
+const service = new OrderService();
+
+// Obtener ordenes
+router.get('/', async (req, res, next) => {
+  try {
+    const orders = await service.find();
+    res.json(orders);
+  } catch (error) {
+    next(error);
+  }
 });
+
+// obtener una orden
+router.get('/:id',
+  validatorHandler(getOrderSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const order = await service.findOne(id);
+      res.json(order);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// Crear orden
+router.post('/',
+  validatorHandler(createOrderSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newOrder = await service.create(body);
+      res.status(201).json(newOrder);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// Actualizar Orden
+router.patch('/:id',
+  validatorHandler(getOrderSchema, 'params'),
+  validatorHandler(updateOrderSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const order = await service.update(id, body);
+      res.json(order);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// eliminar orden
+router.delete('/:id',
+  validatorHandler(getOrderSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      await service.delete(id);
+      res.status(201).json({id});
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = router;
