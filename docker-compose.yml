@@ -6,11 +6,13 @@ services:
   postgres:
     #Imagen a partir de la cual se creara el servicio(contenedor)
     image: postgres:13
+    # nombre con el cual se identificara el contenedor
+    container_name: db
     #Variable de ambiente que usara el servicio. utiles para conectar a BD
     environment:
-      - POSTGRES_DB=my_store
-      - POSTGRES_USER=alexis
-      - POSTGRES_PASSWORD=test123
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     #Puerto que habilitara el contenedor
     ports:
       - 5432:5432
@@ -27,8 +29,8 @@ services:
     image: dpage/pgadmin4
     #variables de entorno a user por el servicio
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@mail.com
-      - PGADMIN_DEFAULT_PASSWORD=root
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
     #puertos que usaras
     ports:
       - 5050:80

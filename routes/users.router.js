@@ -9,8 +9,10 @@ const service = new UserService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const categories = await service.find();
-    res.json(categories);
+    // Obtengo los usuarios de BD
+    const users = await service.find();
+    // Convierto el Array a Json
+    res.json(users);
   } catch (error) {
     next(error);
   }
