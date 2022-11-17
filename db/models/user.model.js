@@ -35,8 +35,14 @@ const UserSchema = {
 
 // creamos el modelo User que extiende de la clase Model de sequelize
 class User extends Model {
-  static associate(){
-    // relations with other models
+  static associate(models){
+    // Relacion uno a uno con la tabla customer
+    this.hasOne(models.Customer, {
+      // el alias de la relacion
+      as: 'customer',
+      // la llave foranea de la relacion en la tabla customer
+      foreignKey: 'userId'
+    });
   }
 
   static config(sequelize){

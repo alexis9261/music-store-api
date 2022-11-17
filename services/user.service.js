@@ -21,7 +21,9 @@ class UserService {
    */
   async find() {
     // Mediante el modelo User obtengo todos los registros
-    const response = await models.User.findAll();
+    const response = await models.User.findAll({
+      include: ['customer']
+    });
     // Retorno la data
     return response;
   }
