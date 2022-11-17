@@ -2,6 +2,7 @@ version: '3.3'
 
 #Servicios que se levantaran al correr docker-compose
 services:
+
   #servicio de base de datos - Postgresql
   postgres:
     #Imagen a partir de la cual se creara el servicio(contenedor)
@@ -23,6 +24,7 @@ services:
       # Basicamente se copia todo lo que esta en /var/lib/postgresql/data hacia ./postgres_data
       # Y cuando se apague o reinicie el contenedor, la informacion de la BD estara respaldada en la carpeta ./postgres_data
       - ./postgres_data:/var/lib/postgresql/data
+
   #servicio para interfaz grafica de base de datos
   pgadmin:
     #imagen base
@@ -34,3 +36,25 @@ services:
     #puertos que usaras
     ports:
       - 5050:80
+  #servicio de base de datos - Postgresql
+  mysql:
+    image: mysql:5
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      # No es necesario enviar el usuario root, ya que al no enviar un usuario al servicio, este tomara el usaurio root por default
+      # - MYSQL_USER=${DB_USER}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_PORT=${DB_PORT}
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+  #servicio de interfaz para visualizar la base de datos mysql - Phpmyadmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      # El host debe ser el nombre del servicio que contendra mysql
+      - PMA_HOST=mysql
+    ports:
+      - 8080:80

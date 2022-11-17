@@ -3,7 +3,7 @@ const cors = require('cors');
 const routerApi = require('./routes');
 
 // Importo los middlewares
-const { logErrors, errorHandler, boomErrorHandler } = require('./middlewares/error.handler');
+const { logErrors, errorHandler, boomErrorHandler, sequelizeErrorHandler } = require('./middlewares/error.handler');
 
 // inicializo la app con express
 const app = express();
@@ -48,6 +48,7 @@ routerApi(app);
 // Aplico los middelwares de error a toda la app, y por lo tanto a todas las rutas
 app.use(logErrors);
 app.use(boomErrorHandler);
+app.use(sequelizeErrorHandler);
 app.use(errorHandler);
 
 // indico el puerto donde estara escuchando la app
