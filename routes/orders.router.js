@@ -2,7 +2,7 @@ const express = require('express');
 
 const OrderService = require('./../services/order.service');
 const validatorHandler = require('./../middlewares/validator.handler');
-const { createOrderSchema, updateOrderSchema, getOrderSchema } = require('./../schemas/order.schema');
+const { createOrderSchema, updateOrderSchema, getOrderSchema, addItemSchema } = require('./../schemas/order.schema');
 
 const router = express.Router();
 const service = new OrderService();
@@ -32,13 +32,27 @@ router.get('/:id',
 );
 
 // Crear orden
-router.post('/',
-  validatorHandler(createOrderSchema, 'body'),
+router.post('/add-item',
+  validatorHandler(addItemSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newOrder = await service.create(body);
-      res.status(201).json(newOrder);
+      const newItem = await service.addItem(body);
+      res.status(201).json(newItem);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// Agregar item de la orden
+router.delete('/:id',
+  validatorHandler(getOrderSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      await service.delete(id);
+      res.status(201).json({id});
     } catch (error) {
       next(error);
     }
