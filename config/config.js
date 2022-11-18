@@ -4,13 +4,15 @@ const config = {
   // la variable process es global de Nodejs
   // el metodo env es propio de la variable process
   env: process.env.NODE_ENV || 'dev',
+  isProd: process.env.NODE_ENV === 'production',
   port: process.env.PORT || 3000,
   dbUser: process.env.DB_USER,
   dbPassword: process.env.DB_PASSWORD,
   dbHost: process.env.DB_HOST,
   dbName: process.env.DB_NAME,
   dbPort: process.env.DB_PORT,
-  dbEngine: process.env.DB_ENIGNE
+  dbEngine: process.env.DB_ENIGNE,
+  dbUrl: process.env.DATABASE_URL
 }
 
 module.exports = {config}

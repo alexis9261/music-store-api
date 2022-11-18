@@ -34,6 +34,9 @@ docker-compose --env-file [dir_name] up -d
 ```
 npm run dev
 ```
+
+## Migraciones
+
 ### Crear un archivo de migracion
 npm run migrations:generate migracion_name_file
 
